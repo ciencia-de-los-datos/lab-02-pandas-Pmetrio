@@ -22,8 +22,9 @@ def pregunta_01():
     40
 
     """
-    return
-
+    Cant_Filas = len(tbl0)
+    
+    return Cant_Filas
 
 def pregunta_02():
     """
@@ -33,8 +34,9 @@ def pregunta_02():
     4
 
     """
-    return
-
+    Cant_Column = len(tbl0.columns)
+    
+    return Cant_Column
 
 def pregunta_03():
     """
@@ -50,8 +52,9 @@ def pregunta_03():
     Name: _c1, dtype: int64
 
     """
-    return
-
+    Respuesta_03 = tbl0.groupby('_c1')['_c1'].count()
+    
+    return Respuesta_03
 
 def pregunta_04():
     """
@@ -65,8 +68,9 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
-
+    Respuesta_04 = tbl0.groupby('_c1')['_c2'].mean()
+    
+    return Respuesta_04
 
 def pregunta_05():
     """
@@ -82,8 +86,9 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
-
+    Respuesta_05 = tbl0.groupby('_c1')['_c2'].max()
+    
+    return Respuesta_05
 
 def pregunta_06():
     """
@@ -94,8 +99,11 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
-
+    
+    tbl1['_c4'] = tbl1['_c4'].transform(str.upper)
+    Respuesta_06 = list(tbl1.sort_values(by='_c4', ascending=True)['_c4'].unique())
+    
+    return Respuesta_06
 
 def pregunta_07():
     """
@@ -110,8 +118,9 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
-
+    Respuesta_07 = tbl0.groupby('_c1')['_c2'].sum()
+    
+    return Respuesta_07
 
 def pregunta_08():
     """
@@ -128,8 +137,9 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
-
+    Respuesta_08 = tbl0.assign(suma = tbl0['_c0']+tbl0['_c2'])
+    
+    return Respuesta_08
 
 def pregunta_09():
     """
@@ -146,8 +156,11 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
 
     """
-    return
-
+    # Resultado_09 = tbl0['year'] = tbl0['_c3'].str.split('-').str[0]
+    Respuesta_09 = tbl0.copy()
+    Respuesta_09['year'] = Respuesta_09['_c3'].str.split('-').str[0]
+    
+    return Respuesta_09
 
 def pregunta_10():
     """
@@ -163,8 +176,12 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
-
+    Resultado = tbl0.copy()
+    Resultado = Resultado.sort_values(['_c1', '_c2'], ascending=True)
+    Respuesta_10 = Resultado.groupby('_c1')['_c2'].agg(lambda x: ':'.join(x.astype(str))).reset_index()    
+    Respuesta_10.set_index('_c1', inplace=True)
+    
+    return Respuesta_10
 
 def pregunta_11():
     """
@@ -182,8 +199,12 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
-
+    Df_Proof = tbl1.copy()
+    Df_Proof_T = Df_Proof.sort_values(['_c4','_c0'], ascending=True)
+    Df_Proof_T = Df_Proof_T.groupby('_c0')['_c4'].agg(lambda x: ','.join(x.astype(str))).reset_index()
+    Df_Proof_T['_c4'] = Df_Proof_T['_c4'].apply(str.lower)
+    
+    return Df_Proof_T
 
 def pregunta_12():
     """
@@ -200,10 +221,14 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    Respuesta_12 = tbl2.copy()
+    Respuesta_12_T = Respuesta_12.sort_values(['_c5a','_c5b', '_c0'], ascending=True)
+    Respuesta_To = Respuesta_12_T.assign( _c5 = Respuesta_12_T['_c5a']+":"+Respuesta_12_T['_c5b'].astype(str))
+    Respuesta_Total = Respuesta_To.groupby('_c0')['_c5'].agg(','.join).reset_index()
+    
+    return Respuesta_Total
 
-
-def pregunta_13():
+def pregunta_13():    
     """
     Si la columna _c0 es la clave en los archivos `tbl0.tsv` y `tbl2.tsv`, compute la
     suma de tbl2._c5b por cada valor en tbl0._c1.
@@ -217,4 +242,35 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    DF_Fusion = pd.merge(tbl2, tbl0, on='_c0')
+    Respuesta_13 = DF_Fusion.groupby('_c1')['_c5b'].sum()
+    
+    return Respuesta_13
+'''
+respuesta_01 = pregunta_01()
+print(f"La respuesta es: {respuesta_01}")
+respuesta_02 = pregunta_02()
+print(f"La respuesta es: {respuesta_02}")
+respuesta_03 = pregunta_03()
+print(f"La respuesta es: {respuesta_03}")
+respuesta_04 = pregunta_04()
+print(f"La respuesta es: {respuesta_04}")
+respuesta_05 = pregunta_05()
+print(f"La respuesta es: {respuesta_05}")
+respuesta_06 = pregunta_06()
+print(f"La respuesta es: {respuesta_06}")
+respuesta_07 = pregunta_07()
+print(f"La respuesta es: {respuesta_07}")
+respuesta_08 = pregunta_08()
+print(f"La respuesta es: {respuesta_08}")
+respuesta_09 = pregunta_09()
+print(f"La respuesta es: {respuesta_09}")
+respuesta_10 = pregunta_10()
+print(f"La respuesta es: {respuesta_10}")
+respuesta_11 = pregunta_11()
+print(f"La respuesta es: {respuesta_11}")
+respuesta_12 = pregunta_12()
+print(f"La respuesta es: {respuesta_12}")
+respuesta_13 = pregunta_13()
+print(f"La respuesta es: {respuesta_13}")
+'''
