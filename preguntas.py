@@ -22,9 +22,8 @@ def pregunta_01():
     40
 
     """
-    Cant_Filas = len(tbl0)
     
-    return Cant_Filas
+    return len(tbl0)
 
 def pregunta_02():
     """
