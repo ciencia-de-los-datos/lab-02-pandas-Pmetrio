@@ -242,7 +242,10 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
+     # Fusionar las tablas tbl0 y tbl2 usando la columna _c0 como clave
     DF_Fusion = pd.merge(tbl2, tbl0, on='_c0')
+    
+    # Calcular la suma de la columna _c5b para cada valor en _c1
     Respuesta_13 = DF_Fusion.groupby('_c1')['_c5b'].sum()
     
     return Respuesta_13
