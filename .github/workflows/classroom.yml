@@ -128,7 +128,7 @@ jobs:
       with:
         test-name: Pregunta 13
         setup-command: pip3 install pandas
-        command: python3 tests.py
+        command: python3 tests.py 13
         timeout: 1
         max-score: 1
     - name: Autograding Reporter
